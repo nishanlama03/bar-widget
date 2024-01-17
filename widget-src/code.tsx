@@ -13,16 +13,25 @@ const {
 function Widget() {
   const [pinkBlock, addPinkB] = useSyncedState("pinkBlock", 50);
   const [blueBlock, addBlueB] = useSyncedState("blueBlock", 50);
-  const [PyPos, addPY] = useSyncedState("PyPos", 150);
-  const [ByPos, addBY] = useSyncedState("ByPos", 150);
+  const [PyPos, addPY] = useSyncedState("PyPos", 450);
+  const [ByPos, addBY] = useSyncedState("ByPos", 450);
+  const [pinkCount, addPcount] = useSyncedState("pinkCount", 1);
+  const [blueCount, addBcount] = useSyncedState("blueCount", 1);
   return (
     <Frame
       name="Widget"
       overflow="visible"
       width={500}
-      height={200}
+      height={500}
       fill="#fff"
     >
+      <Text
+        fontSize={32}
+        horizontalAlignText="center"
+        verticalAlignText="center"
+      >
+        Vote
+      </Text>
       <AutoLayout
         name="pinkBar"
         fill="#FFC0CB"
@@ -39,10 +48,10 @@ function Widget() {
         x={500 / 5} // One-third of the x-axis
         y={PyPos}
         height={pinkBlock}
-        width={"fill-parent"}
+        width={50}
       >
         <Text fontSize={32} horizontalAlignText="center">
-          Pink
+          {pinkCount}
         </Text>
       </AutoLayout>
       <AutoLayout
@@ -61,10 +70,10 @@ function Widget() {
         x={500 / 1.5} // One-third of the x-axis
         y={ByPos}
         height={blueBlock}
-        width={"fill-parent"}
+        width={50}
       >
-        <Text fontSize={32} horizontalAlignText="center">
-          Blue
+        <Text fontSize={32} horizontalAlignText={"center"}>
+          {blueCount}
         </Text>
       </AutoLayout>
       <Rectangle
@@ -81,12 +90,19 @@ function Widget() {
           showShadowBehindNode: false,
         }}
         x={500 / 5}
-        y={220}
+        y={550}
         height={50}
         width={50}
         onClick={() => {
-          addPinkB(pinkBlock + 50);
-          addPY(PyPos - 50);
+          if (pinkBlock >= 500) {
+            addPinkB(50);
+            addPY(450);
+            addPcount(1);
+          } else {
+            addPinkB(pinkBlock + 50);
+            addPY(PyPos - 50);
+            addPcount(pinkCount + 1);
+          }
         }}
       />
       <Rectangle
@@ -103,17 +119,21 @@ function Widget() {
           showShadowBehindNode: false,
         }}
         x={500 / 1.5}
-        y={220}
+        y={550}
         height={50}
         width={50}
         onClick={() => {
-          addBlueB(blueBlock + 50);
-          addBY(ByPos - 50);
+          if (blueBlock >= 500) {
+            addBlueB(50);
+            addBY(450);
+            addBcount(1);
+          } else {
+            addBlueB(blueBlock + 50);
+            addBY(ByPos - 50);
+            addBcount(blueCount + 1);
+          }
         }}
       />
-      <Text fontSize={32} horizontalAlignText="center">
-        Vote
-      </Text>
     </Frame>
   );
 }
